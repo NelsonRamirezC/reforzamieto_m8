@@ -1,0 +1,83 @@
+<h1 class="text-center">Monitor</h1>
+
+<section class="py-5">
+    <form action="" id="formFiltroInventario">
+        Tiendas: <select name="tienda" id="selectTienda">
+            <option value="">Todas</option>
+            {{#each tiendas}}
+                <option value="{{store_id}}">{{store_name}}</option>
+             {{/each}}
+             </select>
+
+        Categorias: <select name="categoria" id="selectCategoria">
+            <option value="">Todas</option>
+            {{#each categorias}}
+                <option value="{{category_id}}">{{category_name}}</option>
+             {{/each}}
+        </select>
+
+        Marcas: <select name="marca" id="selectMarca">
+            <option value="">Todas</option>
+            {{#each marcas}}
+                <option value="{{brand_id}}">{{brand_name}}</option>
+             {{/each}}
+             </select>
+        
+
+        <button class="btn btn-primary">Filtrar</button>
+    </form>
+</section>
+
+<section class="py-5">
+    <p>Cantidad de registros encontrados: {{cantidadRegistros}}</p>
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Tienda</th>
+      <th scope="col">Id Producto</th>
+      <th scope="col">Nombre Producto</th>
+      <th scope="col">inventario</th>
+      <th scope="col">acción</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each inventario }}
+    <tr>
+      <th scope="row">{{nombreTienda}}</th>
+      <td>{{idProducto}}</td>
+      <td>{{nombreProducto}}</td>
+      <td>{{cantidadInventario}}</td>
+      <td>Ver más</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+</section>
+
+
+<script>
+    let formFiltroInventario = document.getElementById("formFiltroInventario");
+
+    formFiltroInventario.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        try{
+            let ruta = `/monitor?token=${token}&`
+
+            if(selectTienda.value){
+                ruta+=`tienda=${selectTienda.value}&`
+            }
+            if(selectCategoria.value){
+                ruta+=`categoria=${selectCategoria.value}&`
+            }
+            if(selectMarca.value){
+                ruta+=`marca=${selectMarca.value}&`
+            }
+
+            location.href = ruta;
+
+        }catch(error){
+            alert("Error en filtro");
+        }
+    })
+</script>
